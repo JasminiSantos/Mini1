@@ -8,8 +8,30 @@
 import SwiftUI
 
 struct MoodCard: View {
+    let emoji = "😆"
+    let title: String = "Super"
+    let description: String = "Aumente minhas metas!"
     var body: some View {
-        Text(/*@START_MENU_TOKEN@*/"Hello, World!"/*@END_MENU_TOKEN@*/)
+        HStack(alignment: .center) {
+            Text(emoji)
+                .font(.system(size: 64))
+                .padding(.trailing, 16)
+            
+            VStack(alignment: .leading) {
+                Text(title)
+                    .font(.largeTitle)
+                    .fontWeight(.bold)
+                
+                Text(description)
+                    .font(.subheadline)
+                    .fontWeight(.regular)
+            }
+        }
+        .frame(width: 300)
+        .padding()
+        .background(Color.white)
+        .cornerRadius(16)
+        
     }
 }
 
