@@ -8,13 +8,23 @@
 import SwiftUI
 
 struct GreenButton: View {
+    let title: String
     var body: some View {
-        Text(/*@START_MENU_TOKEN@*/"Hello, World!"/*@END_MENU_TOKEN@*/)
+        Button(action: {
+        }) {
+            Text(title)
+                .frame(maxWidth: .infinity)
+                .font(.title)
+                .foregroundColor(.white)
+                .padding()
+                .background(Color.green)
+                .cornerRadius(10)
+        }
     }
 }
 
 struct GreenButton_Previews: PreviewProvider {
     static var previews: some View {
-        GreenButton()
+        GreenButton(title: "Vamos lá!")
     }
 }
