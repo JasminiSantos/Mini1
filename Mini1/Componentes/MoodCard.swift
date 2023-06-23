@@ -8,9 +8,9 @@
 import SwiftUI
 
 struct MoodCard: View {
-    let emoji = "😆"
-    let title: String = "Super"
-    let description: String = "Aumente minhas metas!"
+    var emoji = ""
+    var title: String = ""
+    var description: String = ""
     var body: some View {
         HStack(alignment: .center) {
             Text(emoji)
@@ -26,8 +26,8 @@ struct MoodCard: View {
                     .font(.subheadline)
                     .fontWeight(.regular)
             }
+            Spacer() 
         }
-        .frame(width: 300)
         .padding()
         .background(Color.white)
         .cornerRadius(16)
@@ -37,6 +37,6 @@ struct MoodCard: View {
 
 struct MoodCard_Previews: PreviewProvider {
     static var previews: some View {
-        MoodCard()
+        MoodCard(emoji: "😆", title: "Super", description: "Aumente minhas metas!")
     }
 }
