@@ -8,19 +8,21 @@
 import SwiftUI
 
 struct OnboardingView: View {
-    let nome: String = "Jasmini"
+    let nome: String = "amigo"
     var body: some View {
-        VStack(alignment: .center) {
+        VStack {
             Text("Como você está se sentindo, \(nome)?")
                 .font(.largeTitle)
                 .fontWeight(.bold)
             
-            VStack(spacing: 30) {
-                MoodCard()
-                MoodCard()
-                MoodCard()
-                MoodCard()
+            VStack(alignment: .leading, spacing: 20) {
+                MoodCard(emoji: "😆", title: "Super", description: "Aumente minhas metas!")
+                MoodCard(emoji: "😀", title: "Bem", description: "Crie uma meta adicional")
+                MoodCard(emoji: "🙂", title: "Normal", description: "Nem bem, nem mal")
+                MoodCard(emoji: "🫤", title: "Não tão bem", description: "Simplifique meus hábitos hoje")
             }
+            .padding(.horizontal, 20)
+            
             GreenButton(title: "Vamos lá!")
                 .padding(.horizontal, 20)
                 .padding(.top, 15)
