@@ -2,7 +2,7 @@
 //  EditorAtividadeView.swift
 //  Mini1
 //
-//  Created by Robson Borges on 26/06/23.
+//  Created by Jasmini Rebecca Gomes dos Santos on 28/06/23.
 //
 
 import SwiftUI

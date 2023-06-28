@@ -7,9 +7,6 @@
 
 import SwiftUI
 
-
-
-
 struct ListaAtividadesView: View {
     let mood : MoodCard
     @StateObject var lista = ListaAtividades()
@@ -25,7 +22,7 @@ struct ListaAtividadesView: View {
                     .fontWeight(.bold)
                     .frame(maxWidth: .infinity,alignment: .leading)
             }
-            VStack{
+            VStack(spacing: 20){
                 ForEach(lista.lista.indices) { index in
                     AtividadeView(atividade: $lista.lista[index])
                         .frame(maxHeight: 100)
