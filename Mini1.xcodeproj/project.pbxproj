@@ -8,8 +8,10 @@
 
 /* Begin PBXBuildFile section */
 		8428475A2A4A5D6F00C7F02D /* Atividade.swift in Sources */ = {isa = PBXBuildFile; fileRef = 842847592A4A5D6F00C7F02D /* Atividade.swift */; };
-		8428475C2A4A5E1F00C7F02D /* EditorAtividadeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8428475B2A4A5E1F00C7F02D /* EditorAtividadeView.swift */; };
 		8428475E2A4A5E6F00C7F02D /* ListaAtividadesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8428475D2A4A5E6F00C7F02D /* ListaAtividadesView.swift */; };
+		849714462A4CC1DA001CD17A /* Modificador.swift in Sources */ = {isa = PBXBuildFile; fileRef = 849714452A4CC1DA001CD17A /* Modificador.swift */; };
+		849714482A4CC202001CD17A /* ChatGPT.swift in Sources */ = {isa = PBXBuildFile; fileRef = 849714472A4CC202001CD17A /* ChatGPT.swift */; };
+		8497144B2A4CC28A001CD17A /* EditorAtividadeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8497144A2A4CC28A001CD17A /* EditorAtividadeView.swift */; };
 		84D797522A44B8CF0038A91E /* Mini1App.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84D797512A44B8CF0038A91E /* Mini1App.swift */; };
 		84D797542A44B8CF0038A91E /* OnboardingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84D797532A44B8CF0038A91E /* OnboardingView.swift */; };
 		84D797562A44B8D10038A91E /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 84D797552A44B8D10038A91E /* Assets.xcassets */; };
@@ -20,8 +22,10 @@
 
 /* Begin PBXFileReference section */
 		842847592A4A5D6F00C7F02D /* Atividade.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Atividade.swift; sourceTree = "<group>"; };
-		8428475B2A4A5E1F00C7F02D /* EditorAtividadeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditorAtividadeView.swift; sourceTree = "<group>"; };
 		8428475D2A4A5E6F00C7F02D /* ListaAtividadesView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListaAtividadesView.swift; sourceTree = "<group>"; };
+		849714452A4CC1DA001CD17A /* Modificador.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Modificador.swift; sourceTree = "<group>"; };
+		849714472A4CC202001CD17A /* ChatGPT.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatGPT.swift; sourceTree = "<group>"; };
+		8497144A2A4CC28A001CD17A /* EditorAtividadeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditorAtividadeView.swift; sourceTree = "<group>"; };
 		84D7974E2A44B8CF0038A91E /* Mini1.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Mini1.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		84D797512A44B8CF0038A91E /* Mini1App.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Mini1App.swift; sourceTree = "<group>"; };
 		84D797532A44B8CF0038A91E /* OnboardingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingView.swift; sourceTree = "<group>"; };
@@ -42,6 +46,25 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		849714442A4CC1A5001CD17A /* Auxiliares */ = {
+			isa = PBXGroup;
+			children = (
+				849714452A4CC1DA001CD17A /* Modificador.swift */,
+				849714472A4CC202001CD17A /* ChatGPT.swift */,
+			);
+			path = Auxiliares;
+			sourceTree = "<group>";
+		};
+		849714492A4CC260001CD17A /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				84D797532A44B8CF0038A91E /* OnboardingView.swift */,
+				8497144A2A4CC28A001CD17A /* EditorAtividadeView.swift */,
+				8428475D2A4A5E6F00C7F02D /* ListaAtividadesView.swift */,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
 		84D797452A44B8CF0038A91E = {
 			isa = PBXGroup;
 			children = (
@@ -61,10 +84,10 @@
 		84D797502A44B8CF0038A91E /* Mini1 */ = {
 			isa = PBXGroup;
 			children = (
+				849714492A4CC260001CD17A /* Views */,
+				849714442A4CC1A5001CD17A /* Auxiliares */,
 				84D7975F2A44C2DF0038A91E /* Componentes */,
 				84D797512A44B8CF0038A91E /* Mini1App.swift */,
-				84D797532A44B8CF0038A91E /* OnboardingView.swift */,
-				8428475D2A4A5E6F00C7F02D /* ListaAtividadesView.swift */,
 				84D797552A44B8D10038A91E /* Assets.xcassets */,
 				84D797572A44B8D10038A91E /* Preview Content */,
 			);
@@ -85,7 +108,6 @@
 				84D797602A44C2FC0038A91E /* MoodCard.swift */,
 				84D797622A44D5920038A91E /* GreenButton.swift */,
 				842847592A4A5D6F00C7F02D /* Atividade.swift */,
-				8428475B2A4A5E1F00C7F02D /* EditorAtividadeView.swift */,
 			);
 			path = Componentes;
 			sourceTree = "<group>";
@@ -161,10 +183,12 @@
 			buildActionMask = 2147483647;
 			files = (
 				84D797542A44B8CF0038A91E /* OnboardingView.swift in Sources */,
-				8428475C2A4A5E1F00C7F02D /* EditorAtividadeView.swift in Sources */,
 				84D797632A44D5920038A91E /* GreenButton.swift in Sources */,
+				8497144B2A4CC28A001CD17A /* EditorAtividadeView.swift in Sources */,
+				849714482A4CC202001CD17A /* ChatGPT.swift in Sources */,
 				8428475E2A4A5E6F00C7F02D /* ListaAtividadesView.swift in Sources */,
 				84D797612A44C2FC0038A91E /* MoodCard.swift in Sources */,
+				849714462A4CC1DA001CD17A /* Modificador.swift in Sources */,
 				8428475A2A4A5D6F00C7F02D /* Atividade.swift in Sources */,
 				84D797522A44B8CF0038A91E /* Mini1App.swift in Sources */,
 			);

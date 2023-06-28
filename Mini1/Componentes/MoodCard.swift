@@ -7,7 +7,8 @@
 
 import SwiftUI
 
-struct MoodCard: View {
+struct MoodCard: View, Identifiable, Equatable {
+    var id = UUID()
     var emoji = ""
     var title: String = ""
     var description: String = ""
@@ -26,6 +27,7 @@ struct MoodCard: View {
                     .font(.subheadline)
                     .fontWeight(.regular)
             }
+            .foregroundColor(.black)
             Spacer() 
         }
         .padding()

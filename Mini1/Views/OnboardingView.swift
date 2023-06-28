@@ -9,8 +9,9 @@ import SwiftUI
 
 struct OnboardingView: View {
     let nome: String = "amigo"
+    @StateObject var lista = ListaAtividades()
     @State var nextPage : Bool = false
-    @State var selectedMoodCard: MoodCard? = nil
+    @State var moodSelected =  MoodCard(emoji: "Error", title: "Error", description: "Error")
     
     let moodCards = [
         MoodCard(emoji: "😆", title: "Ambicioso", description: "Me desafie!"),
@@ -33,13 +34,13 @@ struct OnboardingView: View {
                     
                     ForEach(moodCards) { moodCard in
                         Button(action: {
-                            selectedMoodCard = moodCard
+                            moodSelected = moodCard
                         }) {
                             moodCard.body
                                 .padding(4)
                                 .background(
                                     RoundedRectangle(cornerRadius: 16)
-                                        .fill(selectedMoodCard == moodCard ? Color.blue : Color.white)
+                                        .fill(moodSelected == moodCard ? Color.blue : Color.white)
                                         .shadow(color: Color.gray.opacity(0.3), radius: 5, x: 0, y: 2)
                                 )
                         }
@@ -47,15 +48,26 @@ struct OnboardingView: View {
                 }
                 
                 Button(action: {
-                    if selectedMoodCard != nil {
-                        nextPage = true
+                    
+                    for atividade in lista.lista {
+                        ModificadorAtividade().modificar(atividade: atividade, mood: moodSelected)
                     }
+    
+                    nextPage = true
                 }) {
-                    GreenButton(title: "Vamos lá!")
+                    Text("Vamos lá!")
+                        .bold()
+                        .frame(maxWidth: .infinity)
+                        .font(.title)
+                        .foregroundColor(.white)
+                        .padding()
+                        .background(Color.green)
+                        .cornerRadius(10)
                 }
-                .padding(.top, 15)
-                
-                Spacer(minLength: 50)
+                .padding(20)
+                .fullScreenCover(isPresented: $nextPage){
+                    ListaAtividadesView(lista: lista, mood:$moodSelected)
+                }
             }
         }
         .padding(.horizontal, 20)

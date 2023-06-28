@@ -7,9 +7,13 @@
 
 import SwiftUI
 
+
+
+
 struct ListaAtividadesView: View {
-    let mood : MoodCard
-    @StateObject var lista = ListaAtividades()
+    @ObservedObject var lista : ListaAtividades
+    @Binding var mood : MoodCard
+    
     var body: some View {
         ScrollView{
             HStack{
@@ -22,11 +26,24 @@ struct ListaAtividadesView: View {
                     .fontWeight(.bold)
                     .frame(maxWidth: .infinity,alignment: .leading)
             }
-            VStack(spacing: 20){
+            VStack{
+                Text("Concluidas")
                 ForEach(lista.lista.indices) { index in
-                    AtividadeView(atividade: $lista.lista[index])
-                        .frame(maxHeight: 100)
-                        .cornerRadius(16)
+                    if(lista.lista[index].getConcluida()){
+                        AtividadeView(atividade: $lista.lista[index])
+                            .frame(maxHeight: 120)
+                            .cornerRadius(16)
+                    }
+                }
+            }
+            VStack{
+                Text("Não concluidas")
+                ForEach(lista.lista.indices) { index in
+                    if(lista.lista[index].getConcluida() == false){
+                        AtividadeView(atividade: $lista.lista[index])
+                            .frame(maxHeight: 120)
+                            .cornerRadius(16)
+                    }
                 }
             }
         }
@@ -36,7 +53,9 @@ struct ListaAtividadesView: View {
 }
 
 struct ListaAtividadesView_Previews: PreviewProvider {
+    @State static private var moodSelected = MoodCard(emoji: "😆", title: "Super", description: "Aumente minhas metas!")
+    @StateObject static private var lista = ListaAtividades()
     static var previews: some View {
-        ListaAtividadesView(mood: MoodCard(emoji: "😆", title: "Super", description: "Aumente minhas metas!"))
+        ListaAtividadesView(lista: lista, mood: $moodSelected)
     }
 }

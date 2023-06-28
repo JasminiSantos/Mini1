@@ -6,35 +6,53 @@
 //
 import SwiftUI
 import Foundation
-
-class Atividade: Identifiable{
-    let ID  = UUID()
-    var concluida : Bool = false
-    var textoOriginal : String
-    var textoModificado : String
-    var dataCriacao : Date
-    var dataConclusao : Date? = nil
     
-    init(textoOriginal:String,textoModificado:String){
-        self.textoOriginal = textoOriginal
-        self.textoModificado = textoModificado
+class Atividade: Identifiable , ObservableObject{
+    let ID  = UUID()
+    private var concluida : Bool
+    private var chatEditou : Bool = false
+    private var acao : String
+    private var duracao : String
+    private var modAcao : String = ""
+    private var modDuracao : String = ""
+    private var dataCriacao : Date
+    private var dataConclusao : Date? = nil
+    
+    init(acao: String,duracao: String,concluida: Bool = false){
+        self.concluida = concluida
+        self.acao = acao
+        self.duracao = duracao
         self.dataCriacao = Date()
     }
     func concluir(){
-        self.concluida = true
+        self.concluida.toggle()
         self.dataConclusao = Date()
     }
-    func setTextoOriginal(texto:String){
-        self.textoOriginal = texto
+    func setAcao(texto:String){
+        self.acao = texto
     }
-    func setTextoModificado(texto:String){
-        self.textoModificado = texto
+    func setDuracao(texto: String){
+        self.duracao = texto
     }
-    func getTextoOriginal() -> String {
-        return self.textoOriginal
+    func setModificar(acao:String ,duracao:String ){
+        self.chatEditou = true
+        self.modAcao = acao
+        self.modDuracao = duracao
     }
-    func getTextoModificado() -> String {
-        return self.textoModificado
+    func getChatEditou() -> Bool{
+        return self.chatEditou
+    }
+    func getAcao() -> String {
+        return self.acao
+    }
+    func getDuracao() -> String {
+        return self.duracao
+    }
+    func getModAcao() -> String {
+        return self.modAcao
+    }
+    func getModDuracao() -> String {
+        return self.modDuracao
     }
     func getConcluida() -> Bool{
         return self.concluida
@@ -46,16 +64,23 @@ class Atividade: Identifiable{
         print("Atividade não concluida, Data de conclusão não existe.")
         return nil
     }
+    func getDataCriacao() -> Date{
+//        return self.dataConclusao == nil ?? self.dataCriacao
+        if (self.dataConclusao != nil){
+            return self.dataConclusao ?? self.dataCriacao
+        }
+        return self.dataCriacao
+    }
 }
 
 
 class ListaAtividades : Identifiable, ObservableObject{
-    var lista = [Atividade(textoOriginal: "Ler 30 páginas de um livro", textoModificado: ""),
-                           Atividade(textoOriginal: "Caminhar por 50 minutos", textoModificado: ""),
-                           Atividade(textoOriginal: "Beber 8 copos de água por dia", textoModificado: ""),
-                           Atividade(textoOriginal: "Consumir 5 porções de frutas e vegetais diariamente", textoModificado: ""),
-                           Atividade(textoOriginal: "Dormir 7-8 horas por noite", textoModificado: ""),
-                           Atividade(textoOriginal: "Praticar 15 minutos de meditação diariamente", textoModificado: "")]
+    var lista = [Atividade(acao: "Ler 'O Hobbit'", duracao: "30 páginas"),
+                Atividade(acao: "Caminhar", duracao: "50 minutos"),
+                 Atividade(acao: "Beber água", duracao: "8 copos",concluida: true),
+                Atividade(acao: "Consumir frutas e vegetais diariamente", duracao: "5 porções"),
+                Atividade(acao: "Dormir", duracao: "7-8 horas"),
+                Atividade(acao: "Praticar meditação", duracao: "15 minutos")]
     
 }
 
@@ -65,27 +90,36 @@ struct AtividadeView: View{
     var body: some View{
         NavigationView{
             HStack{
-                Text(atividade.textoOriginal)
-                    .frame(maxWidth: .infinity,alignment:.leading)
-                    .foregroundColor(.black)
-                    .padding()
-                
-                NavigationLink(destination: EditorAtividadeView()){
-                    Button(action: {
-                        
-                    }){
-                        Image(systemName: "pencil")
-                            .font(.system(size: 24))
-                    }
-                }
                 
                 Button(action:{
-                    edit = true
+                    edit.toggle()
                     atividade.concluir()
                 }){
-                    Image(systemName: atividade.concluida == true ? "checkmark.square.fill": "square")
-                        .font(.system(size: 24))
+                    Image(systemName: atividade.getConcluida()  ? "checkmark.circle.fill": "circle")
+                        .font(.system(size: 34))
                 }
+                VStack{
+                    Text(atividade.getChatEditou() ? atividade.getModAcao() : atividade.getAcao())
+                        .bold()
+                        .font(.system(size: 22))
+                        .frame(maxWidth: .infinity,alignment:.leading)
+                        .foregroundColor(.black)
+                        .fixedSize(horizontal: false, vertical: true)
+                    
+                    Text(atividade.getChatEditou() ? atividade.getModDuracao() : atividade.getDuracao())
+                        .font(.system(size: 20))
+                        .frame(maxWidth: .infinity,alignment:.leading)
+                        .foregroundColor(.black)
+                        .fixedSize(horizontal: false, vertical: true)
+                    
+                }
+                .padding()
+                Image(systemName:"wand.and.stars")
+                    .font(.system(size: 28))
+                    .foregroundColor(atividade.getChatEditou() ? Color(.systemGreen) : Color(.systemGray4))
+                
+                
+                
                 
             }
             .frame(maxWidth: .infinity)
@@ -100,7 +134,7 @@ struct AtividadeView: View{
 struct AtividadeView_Previews: PreviewProvider{
     
     static var previews: some View{
-        let atv = Atividade(textoOriginal: "Ler 30 páginas de um livro", textoModificado: "")
+        let atv = Atividade(acao: "Ler 'O Hobbit'", duracao: "30 páginas")
         return AtividadeView(atividade: .constant(atv))
     }
 }
