@@ -48,11 +48,6 @@ struct OnboardingView: View {
                 }
                 
                 Button(action: {
-                    
-                    for atividade in lista.lista {
-                        ModificadorAtividade().modificar(atividade: atividade, mood: moodSelected)
-                    }
-    
                     nextPage = true
                 }) {
                     Text("Vamos lá!")

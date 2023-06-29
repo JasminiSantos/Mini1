@@ -13,42 +13,64 @@ import SwiftUI
 struct ListaAtividadesView: View {
     @ObservedObject var lista : ListaAtividades
     @Binding var mood : MoodCard
+    @State var voltarView : Bool = false
+    @State var carregando : Bool = true
     
     var body: some View {
-        ScrollView{
-            HStack{
-                Text(mood.emoji)
-                    .font(.system(size: 40))
+            ScrollView {
+                if(!carregando){
+                    HStack {
+                        Button(action:{
+                            voltarView = true
+                        }){
+                            Text(mood.emoji)
+                                .font(.system(size: 40))
+                        }
+                        .fullScreenCover(isPresented: $voltarView){
+                            OnboardingView()
+                        }
+                        
+                        Text("Suas atividades")
+                            .font(.largeTitle)
+                            .fontWeight(.bold)
+                            .frame(maxWidth: .infinity, alignment: .leading)
+                    }
                     
+                    VStack {
+                        ForEach(lista.lista.indices) { index in
+                            if !lista.lista[index].concluida {
+                                AtividadeView(atividade: $lista.lista[index])
+                                    .cornerRadius(16)
+                            }
+                        }
+                        ForEach(lista.lista.indices) { index in
+                            if lista.lista[index].concluida {
+                                AtividadeView(atividade: $lista.lista[index])
+                                    .cornerRadius(16)
+                            }
+                        }
+                    }
+                }
+                else{
+                    VStack{
+                        Text("Modificando suas atividades...")
+                            .frame(maxWidth: .infinity,maxHeight: .infinity)
+                    }
+                }
+            }
+            .padding()
+            .background(Color(.systemGray6))
+            .onAppear {
                 
-                Text("Suas atividades")
-                    .font(.largeTitle)
-                    .fontWeight(.bold)
-                    .frame(maxWidth: .infinity,alignment: .leading)
-            }
-            VStack{
-                Text("Concluidas")
-                ForEach(lista.lista.indices) { index in
-                    if(lista.lista[index].getConcluida()){
-                        AtividadeView(atividade: $lista.lista[index])
-                            .frame(maxHeight: 120)
-                            .cornerRadius(16)
+                Task {
+                    for atividade in lista.lista {
+                        await ModificadorAtividade().modificar(atividade: atividade, mood: mood)
                     }
+                    carregando = false
                 }
+                
+                
             }
-            VStack{
-                Text("Não concluidas")
-                ForEach(lista.lista.indices) { index in
-                    if(lista.lista[index].getConcluida() == false){
-                        AtividadeView(atividade: $lista.lista[index])
-                            .frame(maxHeight: 120)
-                            .cornerRadius(16)
-                    }
-                }
-            }
-        }
-        .padding()
-        .background(Color(.systemGray6))
     }
 }
 
