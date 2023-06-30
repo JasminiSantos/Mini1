@@ -15,12 +15,12 @@ struct MoodCard: View, Identifiable, Equatable {
     var body: some View {
         HStack(alignment: .center) {
             Text(emoji)
-                .font(.system(size: 64))
-                .padding(.trailing, 16)
+                .font(.system(size: 48))
+
             
             VStack(alignment: .leading) {
                 Text(title)
-                    .font(.largeTitle)
+                    .font(.title2)
                     .fontWeight(.bold)
                 
                 Text(description)

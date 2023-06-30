@@ -12,6 +12,8 @@ struct OnboardingView: View {
     @StateObject var lista = ListaAtividades()
     @State var nextPage : Bool = false
     @State var moodSelected =  MoodCard(emoji: "Error", title: "Error", description: "Error")
+    @State var isEnabled: Bool = false
+    @State var cardOpacity = 1.0
     
     let moodCards = [
         MoodCard(emoji: "😆", title: "Ambicioso", description: "Me desafie!"),
@@ -29,23 +31,25 @@ struct OnboardingView: View {
                 VStack(alignment: .leading, spacing: 20) {
                     Spacer(minLength: 50)
                     Text("Como você está se sentindo, \(nome)?")
-                        .font(.largeTitle)
+                        .font(.title)
                         .fontWeight(.bold)
+                    
+                    Spacer(minLength: 10)
                     
                     ForEach(moodCards) { moodCard in
                         Button(action: {
                             moodSelected = moodCard
+                            self.cardOpacity = 0.5
+                            isEnabled = true
                         }) {
                             moodCard.body
                                 .padding(4)
-                                .background(
-                                    RoundedRectangle(cornerRadius: 16)
-                                        .fill(moodSelected == moodCard ? Color.blue : Color.white)
-                                        .shadow(color: Color.gray.opacity(0.3), radius: 5, x: 0, y: 2)
-                                )
+                                .opacity(moodSelected == moodCard ? 1.0 : cardOpacity)
+                                .animation(.easeInOut)
                         }
                     }
                 }
+                .frame(maxWidth: 320)
                 
                 Button(action: {
                     
@@ -55,15 +59,16 @@ struct OnboardingView: View {
     
                     nextPage = true
                 }) {
-                    Text("Vamos lá!")
+                    Text(isEnabled ? "Vamos lá!" : "Selecione uma opção")
                         .bold()
                         .frame(maxWidth: .infinity)
-                        .font(.title)
-                        .foregroundColor(.white)
+                        .font(.title3)
+                        .foregroundColor(isEnabled ? Color.white : Color.gray)
                         .padding()
-                        .background(Color.green)
+                        .background(isEnabled ? Color.green : Color(.systemGray4))
                         .cornerRadius(10)
                 }
+                .disabled(!isEnabled)
                 .padding(20)
                 .fullScreenCover(isPresented: $nextPage){
                     ListaAtividadesView(lista: lista, mood:$moodSelected)
