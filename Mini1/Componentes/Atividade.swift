@@ -9,7 +9,8 @@ import Foundation
     
 class Atividade: Identifiable , ObservableObject{
     let ID  = UUID()
-    private var concluida : Bool
+    var concluida : Bool
+    var mostrarModChat : Bool = false
     private var chatEditou : Bool = false
     private var acao : String
     private var duracao : String
@@ -36,6 +37,7 @@ class Atividade: Identifiable , ObservableObject{
     }
     func setModificar(acao:String ,duracao:String ){
         self.chatEditou = true
+        self.mostrarModChat = true
         self.modAcao = acao
         self.modDuracao = duracao
     }
@@ -75,7 +77,7 @@ class Atividade: Identifiable , ObservableObject{
 
 
 class ListaAtividades : Identifiable, ObservableObject{
-    var lista = [Atividade(acao: "Ler 'O Hobbit'", duracao: "30 páginas"),
+    @Published var lista = [Atividade(acao: "Ler 'O Hobbit'", duracao: "30 páginas"),
                 Atividade(acao: "Caminhar", duracao: "50 minutos"),
                  Atividade(acao: "Beber água", duracao: "8 copos",concluida: true),
                 Atividade(acao: "Consumir frutas e vegetais diariamente", duracao: "5 porções"),
@@ -87,37 +89,43 @@ class ListaAtividades : Identifiable, ObservableObject{
 struct AtividadeView: View{
     @Binding var atividade : Atividade
     @State var edit : Bool = false
+    
     var body: some View{
-        NavigationView{
             HStack{
                 
                 Button(action:{
                     edit.toggle()
-                    atividade.concluir()
+                    atividade.concluida.toggle()
                 }){
                     Image(systemName: atividade.getConcluida()  ? "checkmark.circle.fill": "circle")
                         .font(.system(size: 34))
                 }
                 VStack{
-                    Text(atividade.getChatEditou() ? atividade.getModAcao() : atividade.getAcao())
+                    Text(atividade.getChatEditou() && atividade.mostrarModChat ? atividade.getModAcao() : atividade.getAcao())
                         .bold()
-                        .font(.system(size: 22))
+                        .font(.system(size: 18))
                         .frame(maxWidth: .infinity,alignment:.leading)
                         .foregroundColor(.black)
                         .fixedSize(horizontal: false, vertical: true)
                     
-                    Text(atividade.getChatEditou() ? atividade.getModDuracao() : atividade.getDuracao())
-                        .font(.system(size: 20))
-                        .frame(maxWidth: .infinity,alignment:.leading)
-                        .foregroundColor(.black)
-                        .fixedSize(horizontal: false, vertical: true)
+//                    Text(atividade.getChatEditou() && atividade.mostrarModChat ? atividade.getModDuracao() : atividade.getDuracao())
+//                        .font(.system(size: 20))
+//                        .frame(maxWidth: .infinity,alignment:.leading)
+//                        .foregroundColor(.black)
+//                        .fixedSize(horizontal: false, vertical: true)
                     
                 }
                 .padding()
-                Image(systemName:"wand.and.stars")
-                    .font(.system(size: 28))
-                    .foregroundColor(atividade.getChatEditou() ? Color(.systemGreen) : Color(.systemGray4))
-                
+                Button(action:{
+                    if(!atividade.concluida){
+                        edit.toggle()
+                        atividade.mostrarModChat.toggle()
+                    }
+                }){
+                    Image(systemName:"wand.and.stars")
+                        .font(.system(size: 28))
+                        .foregroundColor(atividade.mostrarModChat ? Color(.systemGreen) : Color(.systemGray4))
+                }
                 
                 
                 
@@ -128,7 +136,7 @@ struct AtividadeView: View{
             .cornerRadius(16)
         }
         
-    }
+    
 }
 
 struct AtividadeView_Previews: PreviewProvider{

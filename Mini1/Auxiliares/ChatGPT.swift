@@ -10,7 +10,7 @@ class ChatRequestManager: ObservableObject {
     @Published var responseError: Error?
 
     func makeRequest(text: String) async -> Data?{
-        let apiKey = "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"
+        let apiKey = KEY_CHAT
         let model = "text-davinci-003"
         let prompt = text
         let temperature = 0.9

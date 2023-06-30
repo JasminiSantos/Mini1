@@ -52,11 +52,6 @@ struct OnboardingView: View {
                 .frame(maxWidth: 320)
                 
                 Button(action: {
-                    
-                    for atividade in lista.lista {
-                        ModificadorAtividade().modificar(atividade: atividade, mood: moodSelected)
-                    }
-    
                     nextPage = true
                 }) {
                     Text(isEnabled ? "Vamos lá!" : "Selecione uma opção")
