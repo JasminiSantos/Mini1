@@ -13,7 +13,7 @@ class ChatRequestManager: ObservableObject {
         let apiKey = KEY_CHAT
         let model = "text-davinci-003"
         let prompt = text
-        let temperature = 0.9
+        let temperature = 0.7
         let maxTokens = 150
         let topP = 1
         let frequencyPenalty = 0.0

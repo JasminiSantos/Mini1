@@ -7,6 +7,10 @@
 import SwiftUI
 import Foundation
     
+
+
+
+
 class Atividade: Identifiable , ObservableObject{
     let ID  = UUID()
     var concluida : Bool
@@ -77,28 +81,46 @@ class Atividade: Identifiable , ObservableObject{
 
 
 class ListaAtividades : Identifiable, ObservableObject{
-    @Published var lista = [Atividade(acao: "Ler 'O Hobbit'", duracao: "30 páginas"),
-                Atividade(acao: "Caminhar", duracao: "50 minutos"),
-                 Atividade(acao: "Beber água", duracao: "8 copos",concluida: true),
-                Atividade(acao: "Consumir frutas e vegetais diariamente", duracao: "5 porções"),
-                Atividade(acao: "Dormir", duracao: "7-8 horas"),
-                Atividade(acao: "Praticar meditação", duracao: "15 minutos")]
+    @Published var lista = [Atividade(acao: "Ler 30 páginas de 'O Hobbit'", duracao: "30 páginas"),
+                Atividade(acao: "Caminhar por 50 minutos", duracao: "50 minutos"),
+                 Atividade(acao: "Beber 8 copos d'água", duracao: "8 copos",concluida: true),
+                Atividade(acao: "Consumir 5 porções de frutas e vegetais", duracao: "5 porções"),
+                Atividade(acao: "Dormir 7-8 horas", duracao: "7-8 horas"),
+                Atividade(acao: "Praticar meditação por 15 minutos", duracao: "15 minutos")]
     
 }
 
 struct AtividadeView: View{
     @Binding var atividade : Atividade
+    @ObservedObject var lista : ListaAtividades
+    @State var indice : Int
     @State var edit : Bool = false
+    @State var editMod : Bool
+    
     
     var body: some View{
             HStack{
-                
-                Button(action:{
-                    edit.toggle()
-                    atividade.concluida.toggle()
-                }){
-                    Image(systemName: atividade.getConcluida()  ? "checkmark.circle.fill": "circle")
-                        .font(.system(size: 34))
+                if(!editMod){
+                    Button(action:{
+                        edit.toggle()
+                        atividade.concluida.toggle()
+                    }){
+                        Image(systemName: atividade.getConcluida()  ? "checkmark.circle.fill": "circle")
+                            .font(.system(size: 34))
+                    }
+                }
+                else{
+                    Button(action:{
+                        edit.toggle()
+                        if indice < lista.lista.endIndex && !lista.lista.isEmpty{
+                            lista.lista.remove(at: indice)
+                        }
+                        
+                    }){
+                        Image(systemName: "minus.circle.fill")
+                            .font(.system(size: 34))
+                            .foregroundColor(Color(.systemRed))
+                    }
                 }
                 VStack{
                     Text(atividade.getChatEditou() && atividade.mostrarModChat ? atividade.getModAcao() : atividade.getAcao())
@@ -108,27 +130,20 @@ struct AtividadeView: View{
                         .foregroundColor(.black)
                         .fixedSize(horizontal: false, vertical: true)
                     
-//                    Text(atividade.getChatEditou() && atividade.mostrarModChat ? atividade.getModDuracao() : atividade.getDuracao())
-//                        .font(.system(size: 20))
-//                        .frame(maxWidth: .infinity,alignment:.leading)
-//                        .foregroundColor(.black)
-//                        .fixedSize(horizontal: false, vertical: true)
-                    
                 }
                 .padding()
-                Button(action:{
-                    if(!atividade.concluida){
-                        edit.toggle()
-                        atividade.mostrarModChat.toggle()
+                if(!editMod){
+                    Button(action:{
+                        if(!atividade.concluida){
+                            edit.toggle()
+                            atividade.mostrarModChat.toggle()
+                        }
+                    }){
+                        Image(systemName:"wand.and.stars")
+                            .font(.system(size: 28))
+                            .foregroundColor(atividade.mostrarModChat ? Color(.systemGreen) : Color(.systemGray4))
                     }
-                }){
-                    Image(systemName:"wand.and.stars")
-                        .font(.system(size: 28))
-                        .foregroundColor(atividade.mostrarModChat ? Color(.systemGreen) : Color(.systemGray4))
                 }
-                
-                
-                
             }
             .frame(maxWidth: .infinity)
             .padding()
@@ -143,6 +158,7 @@ struct AtividadeView_Previews: PreviewProvider{
     
     static var previews: some View{
         let atv = Atividade(acao: "Ler 'O Hobbit'", duracao: "30 páginas")
-        return AtividadeView(atividade: .constant(atv))
+        let list = ListaAtividades()
+        return AtividadeView(atividade: .constant(atv),lista: list,indice: 2,editMod:true)
     }
 }
