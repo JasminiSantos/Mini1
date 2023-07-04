@@ -7,14 +7,13 @@
 
 import SwiftUI
 
-
-
-
 struct ListaAtividadesView: View {
     @ObservedObject var lista : ListaAtividades
     @Binding var mood : MoodCard
     @State var voltarView : Bool = false
     @State var carregando : Bool = true
+    
+    @State private var showingEditingSheet = false
     
     var body: some View {
             ScrollView {
@@ -41,6 +40,12 @@ struct ListaAtividadesView: View {
                             if !lista.lista[index].concluida {
                                 AtividadeView(atividade: $lista.lista[index])
                                     .cornerRadius(16)
+                                    .onTapGesture {
+                                        showingEditingSheet = true
+                                    }
+                                    .sheet(isPresented: $showingEditingSheet) {
+                                        EditorAtividadeView()
+                                    }
                             }
                         }
                         ForEach(lista.lista.indices) { index in
