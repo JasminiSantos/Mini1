@@ -8,8 +8,16 @@
 import SwiftUI
 
 struct CustomTextField: View {
+    @State var taskDescription: String = "Teste"
+    
     var body: some View {
-        Text(/*@START_MENU_TOKEN@*/"Hello, World!"/*@END_MENU_TOKEN@*/)
+        TextField("", text: $taskDescription)
+            .frame(maxWidth: .infinity)
+            .padding(.vertical, 14)
+            .padding(.horizontal, 20)
+            .foregroundColor(Color(.systemGray2))
+            .background(Color(.systemGray6))
+            .cornerRadius(10)
     }
 }
 
