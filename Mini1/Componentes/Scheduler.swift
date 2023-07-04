@@ -8,13 +8,34 @@
 import SwiftUI
 
 struct Scheduler: View {
+    @State private var selected = Date()
+    var icon: String
+    var color: Color
+    var title: String
+    var subtitle: String
+    
     var body: some View {
-        Text(/*@START_MENU_TOKEN@*/"Hello, World!"/*@END_MENU_TOKEN@*/)
+        VStack {
+            CustomToggle(icon: icon, color: color, title: title, subtitle: subtitle)
+                .overlay(
+                    Rectangle()
+                        .frame(height: 1)
+                        .opacity(0.33)
+                        .foregroundColor(.gray)
+                    , alignment: .bottom
+                )
+                .padding(.horizontal)
+            DatePicker("Select Hour", selection: $selected, displayedComponents: .hourAndMinute)
+                .datePickerStyle(WheelDatePickerStyle())
+                .labelsHidden()
+        }
+        .background(Color(.systemGray6))
+        .cornerRadius(8)
     }
 }
 
 struct Scheduler_Previews: PreviewProvider {
     static var previews: some View {
-        Scheduler()
+        Scheduler(icon: "clock.fill", color: .purple, title: "Title", subtitle: "Subtitle")
     }
 }
