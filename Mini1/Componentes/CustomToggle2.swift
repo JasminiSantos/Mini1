@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct CustomToggle2: View {
-    @State private var isToggleOn = false
+    @Binding var isToggleOn: Bool
     
     var icon: String
     var color: Color
@@ -29,7 +29,7 @@ struct CustomToggle2: View {
                     Text(title)
                         .font(.body)
                         .fontWeight(.regular)
-                        .foregroundColor(.black)
+                        .foregroundColor(Color("Texto"))
                     
                 }
                 
@@ -37,13 +37,8 @@ struct CustomToggle2: View {
                 
                 Toggle("", isOn: $isToggleOn)
                     .padding()
+                    .toggleStyle(SwitchToggleStyle(tint: Color("Verde")))
             }
         }
-    }
-}
-
-struct CustomToggle2_Previews: PreviewProvider {
-    static var previews: some View {
-        CustomToggle2(icon: "clock.fill", color: .purple, title: "Title")
     }
 }
