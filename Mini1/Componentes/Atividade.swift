@@ -12,12 +12,14 @@ class Atividade: Identifiable , ObservableObject{
     var concluida : Bool
     var mostrarModChat : Bool = false
     private var chatEditou : Bool = false
-    private var acao : String
+    @Published var acao : String
     private var duracao : String
-    private var modAcao : String = ""
+    @Published var modAcao : String = ""
     private var modDuracao : String = ""
     private var dataCriacao : Date
     private var dataConclusao : Date? = nil
+    
+    @Published var modificavel: Bool = false
     
     init(acao: String,duracao: String,concluida: Bool = false){
         self.concluida = concluida
