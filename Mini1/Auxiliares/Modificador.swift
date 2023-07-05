@@ -18,16 +18,16 @@ struct ModificadorAtividade {
     private func promptMakerDuration(mood: MoodCard,active: Atividade) -> String{
         var prom = ""
         if(mood.title == "Ambicioso"){
-            prom = "crie uma versão extremamente mais difícil desta tarefa, sugerindo apenas uma etapa dela de forma extremamente sintetizada e objetiva. Caso necessário, altere a localização da tarefa para um local mais acessível (exemplo: casa, quarteirão, garagem, etc) e, se aplicável, altere a quantidade de tempo (horas, minutos). Não modifique tarefas de rotina básica (exemplo: higiene básica, alimentação que não envolve dieta, comprar mantimentos essenciais, etc): (" + active.getAcao() + "," + active.getDuracao() + ")"
+            prom = "Você dificulta tarefas, quando for possível deixe as tarefas mais difíceis e caso não seja possível retorne o mesmo texto da tarefa. Sua resposta deve ser uma única linha com a tarefa original ou a tarefa mais difícil. \nExemplo 01: entrada 'Correr por 50 minuto' , saída 'Correr por 1 hora e 20 minutos'. \n Exemplo 02: entrada 'Ir a padaria comprar pão' , saída 'Ir a padaria comprar pão'. \n Exemplo 03: entrada 'Dormir 8 horas' saída 'Dormir 8 horas'. \nAgora dificulte esta tarefa: '" + active.getAcao() + "'."
         }
         else if(mood.title == "Determinado"){
-            prom = "crie uma versão levemente mais elaborada desta tarefa, sugerindo apenas uma etapa dela de forma extremamente sintetizada e objetiva. Caso necessário, altere a localização da tarefa para um local mais acessível (exemplo: casa, quarteirão, garagem, etc) e, se aplicável, altere a quantidade de tempo (horas, minutos). Não modifique tarefas de rotina básica (exemplo: higiene básica, alimentação que não envolve dieta, etc) : (" + active.getAcao() + "," + active.getDuracao() + ")"
+            prom = "Você dificulta tarefas levemente, quando for possível deixe as tarefas mais difíceis e caso não seja possível retorne o mesmo texto da tarefa. Sua resposta deve ser uma única linha com a tarefa original ou a tarefa mais difícil. \nExemplo 01: entrada 'Correr por 50 minuto' , saída 'Correr por 60 minutos'. \n Exemplo 02: entrada 'Ir a padaria comprar pão' , saída 'Ir a padaria comprar pão'.\n Exemplo 03: entrada 'Dormir 8 horas' saída 'Dormir 8 horas'. \nAgora dificulte esta tarefa: '" + active.getAcao() + "'."
         }
         else if (mood.title == "Cansado"){
-            prom = "crie uma versão levemente menos elaborada desta tarefa, sugerindo apenas uma etapa dela de forma extremamente sintetizada e objetiva. Caso necessário, altere a localização da tarefa para um local mais acessível (exemplo: casa, quarteirão, garagem, etc) e, se aplicável, altere a quantidade de tempo (horas, minutos). Não modifique tarefas de rotina básica (exemplo: higiene básica, alimentação que não envolve dieta, etc) : (" + active.getAcao() + "," + active.getDuracao() + ")"
+            prom = "Você é um leve facilitador de tarefas, quando for possível, facilite-as e caso não seja retorne o mesmo texto da tarefa. Sua resposta deve ser uma única linha com a tarefa original ou a tarefa facilitada. \nExemplo 01: entrada 'Correr por 50 minuto' , saída 'Correr por 35 minutos'. \n Exemplo 02: entrada 'Ir a padaria comprar pão' , saída 'Ir a padaria comprar pão'.\n Exemplo 03: entrada 'Dormir 7 horas' saída 'Dormir 8 horas'. \n Exemplo 04: entrada 'Brincar com o cachorro por 10 minutos' saída 'Brincar com o cachorro por 15 minutos'. \nAgora facilite esta tarefa: '" + active.getAcao() + "'."
         }
         else if (mood.title == "Desmotivado"){
-            prom = "crie uma versão extremamente mais fácil desta tarefa, sugerindo apenas uma etapa dela de forma extremamente sintetizada e objetiva. Caso necessário, altere a localização da tarefa para um local mais acessível (exemplo: casa, quarteirão, garagem, etc) e, se aplicável, altere a quantidade de tempo (horas, minutos). Não modifique tarefas de rotina básica (exemplo: higiene básica, alimentação que não envolve dieta, etc) : (" + active.getAcao() + "," + active.getDuracao() + ")"
+            prom = "Você é um facilitador de tarefas, quando for possível, facilite-as e caso não seja retorne o mesmo texto da tarefa. Sua resposta deve ser uma única linha com a tarefa original ou a tarefa facilitada. \nExemplo 01: entrada 'Correr por 50 minuto' , saída 'Correr por 20 minutos'. \n Exemplo 02: entrada 'Ir a padaria comprar pão'. , saída 'Ir a padaria comprar pão'. \n Exemplo 03: entrada 'Dormir 8 horas' saída 'Dormir 9 horas'. \n Exemplo 04: entrada 'Brincar com o cachorro por 10 minutos' saída 'Brincar com o cachorro por 15 minutos'. \n Agora facilite esta tarefa: '" + active.getAcao() + "'."
         }
         return prom
     }
@@ -41,7 +41,7 @@ struct ModificadorAtividade {
                     if let json = try? JSONSerialization.jsonObject(with: data, options: []) as? [String: Any] {
                         if let choices = json["choices"] as? [[String: Any]] {
                             if let text = choices[0]["text"] as? String {
-                                atividade.setModificar(acao: text, duracao: atividade.getDuracao())
+                                atividade.setModificar(acao: text)
                             }
                         }
                     }

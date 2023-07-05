@@ -7,22 +7,27 @@
 import SwiftUI
 import Foundation
     
-class Atividade: Identifiable , ObservableObject{
-    let ID  = UUID()
+
+
+
+//Classe que guarda todas as informações das atividades bem como possíveis operações
+class Atividade: Identifiable , ObservableObject, Equatable {
+    static func == (lhs: Atividade, rhs: Atividade) -> Bool {
+        return lhs.id == rhs.id && lhs.concluida == rhs.concluida
+    }
+    
+    var ID  = UUID()
     var concluida : Bool
     var mostrarModChat : Bool = false
     private var chatEditou : Bool = false
     private var acao : String
-    private var duracao : String
     private var modAcao : String = ""
-    private var modDuracao : String = ""
     private var dataCriacao : Date
     private var dataConclusao : Date? = nil
     
-    init(acao: String,duracao: String,concluida: Bool = false){
+    init(acao: String,concluida: Bool = false){
         self.concluida = concluida
         self.acao = acao
-        self.duracao = duracao
         self.dataCriacao = Date()
     }
     func concluir(){
@@ -32,14 +37,12 @@ class Atividade: Identifiable , ObservableObject{
     func setAcao(texto:String){
         self.acao = texto
     }
-    func setDuracao(texto: String){
-        self.duracao = texto
-    }
-    func setModificar(acao:String ,duracao:String ){
-        self.chatEditou = true
-        self.mostrarModChat = true
-        self.modAcao = acao
-        self.modDuracao = duracao
+    func setModificar(acao:String ){
+        if(acao.count > 0){
+            self.chatEditou = true
+            self.mostrarModChat = true
+            self.modAcao = acao
+        }
     }
     func getChatEditou() -> Bool{
         return self.chatEditou
@@ -47,14 +50,8 @@ class Atividade: Identifiable , ObservableObject{
     func getAcao() -> String {
         return self.acao
     }
-    func getDuracao() -> String {
-        return self.duracao
-    }
     func getModAcao() -> String {
         return self.modAcao
-    }
-    func getModDuracao() -> String {
-        return self.modDuracao
     }
     func getConcluida() -> Bool{
         return self.concluida
@@ -67,68 +64,87 @@ class Atividade: Identifiable , ObservableObject{
         return nil
     }
     func getDataCriacao() -> Date{
-//        return self.dataConclusao == nil ?? self.dataCriacao
         if (self.dataConclusao != nil){
             return self.dataConclusao ?? self.dataCriacao
         }
         return self.dataCriacao
     }
-}
-
-
-class ListaAtividades : Identifiable, ObservableObject{
-    @Published var lista = [Atividade(acao: "Ler 'O Hobbit'", duracao: "30 páginas"),
-                Atividade(acao: "Caminhar", duracao: "50 minutos"),
-                 Atividade(acao: "Beber água", duracao: "8 copos",concluida: true),
-                Atividade(acao: "Consumir frutas e vegetais diariamente", duracao: "5 porções"),
-                Atividade(acao: "Dormir", duracao: "7-8 horas"),
-                Atividade(acao: "Praticar meditação", duracao: "15 minutos")]
-    
+    //Não utilizar, essa função serve apenas para converter uma struct em atividade
+    static func createAtividade(atividade: StructAtividade) -> Atividade {
+        let act = Atividade(acao: atividade.acao)
+        
+        act.ID = atividade.ID
+        act.concluida = atividade.concluida
+        act.mostrarModChat = atividade.mostrarModChat
+        act.chatEditou = atividade.chatEditou
+        act.acao = atividade.acao
+        act.modAcao = atividade.modAcao
+        act.dataCriacao = atividade.dataCriacao
+        act.dataConclusao = atividade.dataConclusao
+        
+        return act
+    }
+    //Não utilizar, essa função serve apenas para converter uma atividade em struct
+    static func createStructAtividade(atividade: Atividade) -> StructAtividade{
+        let act = StructAtividade(ID: atividade.ID, concluida: atividade.concluida, mostrarModChat: atividade.mostrarModChat, chatEditou: atividade.chatEditou, acao: atividade.acao, modAcao: atividade.modAcao, dataCriacao: atividade.dataCriacao, dataConclusao: atividade.dataConclusao ?? atividade.dataCriacao)
+        
+        return act
+    }
 }
 
 struct AtividadeView: View{
-    @Binding var atividade : Atividade
-    @State var edit : Bool = false
+    //Atividade que está sendo exibida
+    var atividade : Atividade
+    //Modo de visualização de edição do card
+    let editMod : Bool
+    
+    @EnvironmentObject var listaAtividades: ListaAtividades
+    
     
     var body: some View{
-            HStack{
-                
-                Button(action:{
-                    edit.toggle()
-                    atividade.concluida.toggle()
-                }){
-                    Image(systemName: atividade.getConcluida()  ? "checkmark.circle.fill": "circle")
-                        .font(.system(size: 34))
-                }
-                VStack{
-                    Text(atividade.getChatEditou() && atividade.mostrarModChat ? atividade.getModAcao() : atividade.getAcao())
-                        .bold()
-                        .font(.system(size: 18))
-                        .frame(maxWidth: .infinity,alignment:.leading)
-                        .foregroundColor(.black)
-                        .fixedSize(horizontal: false, vertical: true)
-                    
-//                    Text(atividade.getChatEditou() && atividade.mostrarModChat ? atividade.getModDuracao() : atividade.getDuracao())
-//                        .font(.system(size: 20))
-//                        .frame(maxWidth: .infinity,alignment:.leading)
-//                        .foregroundColor(.black)
-//                        .fixedSize(horizontal: false, vertical: true)
-                    
-                }
-                .padding()
-                Button(action:{
-                    if(!atividade.concluida){
-                        edit.toggle()
-                        atividade.mostrarModChat.toggle()
+        HStack(alignment: .top){
+                //Se não está no modo edição, mostramos o card normal
+                if(!editMod){
+                    Button(action:{
+                        atividade.concluida.toggle()
+                        listaAtividades.atualizarAtividade(atividade: atividade)
+                    }){
+                        Image(systemName: atividade.getConcluida()  ? "checkmark.circle.fill": "circle")
+                            .font(.system(size: 34))
+                            .foregroundColor(atividade.concluida ? Color("Botao_Apagado") : Color("Verde"))
                     }
-                }){
-                    Image(systemName:"wand.and.stars")
-                        .font(.system(size: 28))
-                        .foregroundColor(atividade.mostrarModChat ? Color(.systemGreen) : Color(.systemGray4))
                 }
+                //Se está no modo edição então mostramos essa parte
+                else{
+                    //Botão de apagar card
+                    Button(action:{
+                        listaAtividades.remover(atividade: atividade)
+                    }){
+                        Image(systemName: "minus.circle.fill")
+                            .font(.system(size: 34))
+                            .foregroundColor(Color("Vermelho"))
+                    }
+                }
+                Text(atividade.getChatEditou() && atividade.mostrarModChat ? atividade.getModAcao() : atividade.getAcao())
+                    .bold()
+                    .font(.system(size: 18))
+                    .frame(maxWidth: .infinity,alignment:.leading)
+                    .foregroundColor(atividade.concluida ? Color("Placeholder_Texto") : Color("Texto"))
+                    .fixedSize(horizontal: false, vertical: true)
+                    .padding(.horizontal,16)
                 
-                
-                
+                if(!editMod){
+                    Button(action:{
+                        if(!atividade.concluida){
+                            atividade.mostrarModChat.toggle()
+                            listaAtividades.atualizarAtividade(atividade: atividade)
+                        }
+                    }){
+                        Image(systemName:"wand.and.stars")
+                            .font(.system(size: 28))
+                            .foregroundColor(atividade.mostrarModChat ? Color("Verde") : Color("Botao_Apagado"))
+                    }
+                }
             }
             .frame(maxWidth: .infinity)
             .padding()
@@ -138,11 +154,11 @@ struct AtividadeView: View{
         
     
 }
-
+    
 struct AtividadeView_Previews: PreviewProvider{
     
     static var previews: some View{
-        let atv = Atividade(acao: "Ler 'O Hobbit'", duracao: "30 páginas")
-        return AtividadeView(atividade: .constant(atv))
+        let atv = Atividade(acao: "Um texto maior para testar o alinhamento é necessário aqui pois alguns cards podem ter um texto muito grande, e talvez seja necessário limitar a quantidade de caracteres")
+        return AtividadeView(atividade: atv,editMod:false)
     }
 }
