@@ -22,19 +22,26 @@ struct ListaAtividadesView: View {
         VStack{
             ZStack{
                 Rectangle()
-                    .frame(maxHeight: 120)
+                    .frame(maxHeight: 100)
                     .foregroundColor(.white)
                     .cornerRadius(16)
-                    .padding(.horizontal, -16)
                     .ignoresSafeArea()
                 HStack {
                     Button(action:{
                         editMod.toggle()
                     }){
-                        Text(editMod ? "Terminar" :"Editar")
-                            .font(.headline)
-                            .frame(maxWidth: .infinity, alignment: .leading)
-                            .foregroundColor(.blue)
+                        if(editMod){
+                            Image(systemName: "checkmark")
+                                .font(.headline)
+                                .frame(maxWidth: .infinity, alignment: .leading)
+                                .foregroundColor(Color("Verde"))
+                        }
+                        else{
+                            Text("Editar")
+                                .font(.headline)
+                                .frame(maxWidth: .infinity, alignment: .leading)
+                                .foregroundColor(Color("Verde"))
+                        }
                     }
                     Text("Emotivate")
                         .font(.title3)
@@ -45,11 +52,12 @@ struct ListaAtividadesView: View {
                         Image(systemName: "plus")
                             .font(.headline)
                             .frame(maxWidth: .infinity, alignment: .trailing)
-                            .foregroundColor(.blue)
+                            .foregroundColor(Color("Verde"))
                     }
                 }
+                .padding(.horizontal,32)
+                .padding(.top,48)
             }
-            .padding(.top,16)
             HStack {
                 Button(action:{
                     voltarView = true
@@ -57,7 +65,7 @@ struct ListaAtividadesView: View {
                     HStack{
                         ZStack(alignment: .center){
                             Circle()
-                                .foregroundColor(.green)
+                                .foregroundColor(Color("Verde"))
                                 .frame(maxWidth: 50,alignment: .center)
                             Text(mood.emoji)
                                 .font(.system(size: 35))
@@ -67,7 +75,7 @@ struct ListaAtividadesView: View {
                             .font(.largeTitle)
                             .fontWeight(.bold)
                             .frame(maxWidth: .infinity, alignment: .leading)
-                            .foregroundColor(.black)
+                            .foregroundColor(Color("Texto"))
                         
                     }
                 }
@@ -76,6 +84,7 @@ struct ListaAtividadesView: View {
                 }
                 
             }
+            .padding(32)
             VStack{
                 ScrollView {
                     
@@ -87,6 +96,9 @@ struct ListaAtividadesView: View {
                                     if !atividade.concluida {
                                         AtividadeView(atividade: atividade, editMod: false)
                                             .cornerRadius(16)
+                                            .shadow(radius: 5)
+                                            .padding(.horizontal,32)
+                                            .padding(.vertical,8)
                                     }
                                 }
                                 
@@ -94,26 +106,27 @@ struct ListaAtividadesView: View {
                                     if atividade.concluida {
                                         AtividadeView(atividade: atividade, editMod: false)
                                             .cornerRadius(16)
+                                            .shadow(radius: 5)
+                                            .padding(.horizontal,32)
+                                            .padding(.vertical,8)
                                     }
                                 }
                             }
                         }
                         else if(editMod){
-                                
-                            
                             VStack {
                                 ForEach(listaAtividades.lista) { atividade in
                                     if !atividade.concluida {
                                         AtividadeView(atividade: atividade, editMod: true)
                                             .cornerRadius(16)
+                                            .shadow(radius: 5)
+                                            .padding(.horizontal,32)
+                                            .padding(.vertical,8)
                                     }
                                 }
                             }
                         }
                         else{
-                            
-                                
-                                Text("If 3")
                             VStack{
                                 Text("Modificando suas atividades...")
                                     .frame(maxWidth: .infinity,maxHeight: .infinity)
@@ -121,11 +134,8 @@ struct ListaAtividadesView: View {
                         }
                     }
                     Spacer()
-                        .onChange(of: listaAtividades.lista) { newValue in
-                            print("ONCHANGE: " + newValue.map { "\($0.id) - \($0.concluida)" }.joined())
-                        }
                 }
-                .background(Color(.systemGray6))
+                .background(Color("Background"))
                 .onAppear {
                     //Carrega os cards salvos ou um de exemplo caso não encontre
                     listaAtividades.inicializar()
@@ -141,8 +151,7 @@ struct ListaAtividadesView: View {
                 }
             }
         }
-        .padding()
-        .background(Color(.systemGray6))
+        .background(Color("Background"))
         .ignoresSafeArea()
         .environmentObject(listaAtividades)
     }

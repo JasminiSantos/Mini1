@@ -21,6 +21,7 @@ class ListaAtividades: ObservableObject {
     @Published var lista = [Atividade]()
 
     public init() {}
+    
     func inicializar(){
         if(!self.recuperar()) {
             self.lista.append(Atividade(acao: "Este daqui é um card para seu hábito."))
@@ -30,6 +31,7 @@ class ListaAtividades: ObservableObject {
     func atualizarAtividade(atividade: Atividade){
         let indice = self.lista.firstIndex(of: atividade)!
         lista[indice] = atividade
+        
     }
     //Adiciona uma atividade a lista
     func adicionar(novaAtividade: Atividade) {

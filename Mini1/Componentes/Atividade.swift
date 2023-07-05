@@ -111,7 +111,7 @@ struct AtividadeView: View{
                     }){
                         Image(systemName: atividade.getConcluida()  ? "checkmark.circle.fill": "circle")
                             .font(.system(size: 34))
-                            .foregroundColor(atividade.concluida ? Color(.systemGray) : .blue)
+                            .foregroundColor(atividade.concluida ? Color("Botao_Apagado") : Color("Verde"))
                     }
                 }
                 //Se está no modo edição então mostramos essa parte
@@ -122,14 +122,14 @@ struct AtividadeView: View{
                     }){
                         Image(systemName: "minus.circle.fill")
                             .font(.system(size: 34))
-                            .foregroundColor(Color(.systemRed))
+                            .foregroundColor(Color("Vermelho"))
                     }
                 }
                 Text(atividade.getChatEditou() && atividade.mostrarModChat ? atividade.getModAcao() : atividade.getAcao())
                     .bold()
                     .font(.system(size: 18))
                     .frame(maxWidth: .infinity,alignment:.leading)
-                    .foregroundColor(atividade.concluida ? Color(.systemGray) : .black)
+                    .foregroundColor(atividade.concluida ? Color("Placeholder_Texto") : Color("Texto"))
                     .fixedSize(horizontal: false, vertical: true)
                     .padding(.horizontal,16)
                 
@@ -142,13 +142,13 @@ struct AtividadeView: View{
                     }){
                         Image(systemName:"wand.and.stars")
                             .font(.system(size: 28))
-                            .foregroundColor(atividade.mostrarModChat ? Color(.systemGreen) : Color(.systemGray4))
+                            .foregroundColor(atividade.mostrarModChat ? Color("Verde") : Color("Botao_Apagado"))
                     }
                 }
             }
             .frame(maxWidth: .infinity)
             .padding()
-            .background(atividade.concluida ?  Color(.systemGray5) : .white)
+            .background(.white)
             .cornerRadius(16)
         }
         
