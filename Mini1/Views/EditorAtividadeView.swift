@@ -8,8 +8,11 @@
 import SwiftUI
 
 struct EditorAtividadeView: View {
+    @Environment(\.presentationMode) var presentationMode
     @State private var selectedTimeADay = Date()
     @State private var selectedNotifications = Date()
+    @State var allowSaving = false
+    @Binding var atividade : Atividade
     
     var body: some View {
         
@@ -17,6 +20,7 @@ struct EditorAtividadeView: View {
             header
             content
         }
+        .background(Color("Cards"))
     }
     
     var content: some View {
@@ -25,9 +29,14 @@ struct EditorAtividadeView: View {
                 .font(.callout)
                 .bold()
                 .font(.system(size: 16))
-                .foregroundColor(.black)
-                
-            CustomTextField()
+                .foregroundColor(Color("Texto"))
+            
+            if atividade.getChatEditou() {
+                CustomTextField(taskDescription: $atividade.modAcao, allowSaving: $allowSaving)
+            }
+            else {
+                CustomTextField(taskDescription: $atividade.acao, allowSaving: $allowSaving)
+            }
             
             Rectangle()
                 .frame(height: 1)
@@ -36,45 +45,57 @@ struct EditorAtividadeView: View {
                 .padding(.vertical)
             
             VStack(spacing: 20) {
-                Scheduler(icon: "clock.fill", color: .purple, title: "Tempo por dia", subtitle: "8:00 horas")
+                Scheduler(icon: "clock.fill", color: Color("Azul"), title: "Tempo por dia")
                 
                 CustomScheduler()
                 
-                CustomToggle2(icon: "wand.and.stars", color: .teal, title: "Adaptável")
+                CustomToggle2(isToggleOn: $atividade.modificavel, icon: "wand.and.stars", color: Color("Roxo"), title: "Adaptável")
                     .padding(.horizontal)
-                    .background(Color(.systemGray6))
+                    .background(Color("Background"))
                     .cornerRadius(8)
                 
-                Scheduler(icon: "megaphone.fill", color: .green, title: "Notificações", subtitle: "8:00 horas")
+//                Scheduler(icon: "megaphone.fill", color: Color("Roxo"), title: "Notificações")
             }
         }
         .padding()
     }
     
     var header: some View {
-        HStack(alignment: .top, spacing: 40) {
-            Text("Cancelar")
-                .font(.body)
-                .font(.system(size: 17))
-                .foregroundColor(.blue)
+        HStack(alignment: .top) {
+            Button(action: {
+                presentationMode.wrappedValue.dismiss()
+            }) {
+                Text("Cancelar")
+                    .font(.body)
+                    .font(.system(size: 17))
+                    .foregroundColor(Color("Verde"))
+            }
+            
+            Spacer()
             
             Text("Editar atividade")
                 .font(.headline)
                 .font(.system(size: 17))
-                .foregroundColor(.black)
+                .foregroundColor(Color("Texto"))
             
-            Text("Salvar")
-                .font(.body)
-                .font(.system(size: 17))
-                .foregroundColor(.blue)
+            Spacer()
+            
+            Button(action: {
+                saveAtividade()
+            }) {
+                Text("Salvar")
+                    .font(.body)
+                    .font(.system(size: 17))
+                    .foregroundColor(Color("Verde"))
+            }
         }
+        .padding(.horizontal)
         .padding(.top, 30)
         .padding(.bottom, 20)
     }
-}
-
-struct EditorAtividadeView_Previews: PreviewProvider {
-    static var previews: some View {
-        EditorAtividadeView()
+    
+    func saveAtividade() {
+        allowSaving = true
+        presentationMode.wrappedValue.dismiss()
     }
 }
