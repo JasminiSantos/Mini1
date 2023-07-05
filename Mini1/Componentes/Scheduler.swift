@@ -12,11 +12,16 @@ struct Scheduler: View {
     var icon: String
     var color: Color
     var title: String
-    var subtitle: String
+    var subtitle: String {
+        let formatter = DateFormatter()
+        formatter.dateFormat = "h:mm a"
+        return formatter.string(from: selected)
+    }
+    @State private var isScheduled = false
     
     var body: some View {
         VStack {
-            CustomToggle(icon: icon, color: color, title: title, subtitle: subtitle)
+            CustomToggle(isToggleOn: $isScheduled, icon: icon, color: color, title: title, subtitle: subtitle)
                 .overlay(
                     Rectangle()
                         .frame(height: 1)
@@ -29,13 +34,13 @@ struct Scheduler: View {
                 .datePickerStyle(WheelDatePickerStyle())
                 .labelsHidden()
         }
-        .background(Color(.systemGray6))
+        .background(Color("Background"))
         .cornerRadius(8)
     }
 }
 
 struct Scheduler_Previews: PreviewProvider {
     static var previews: some View {
-        Scheduler(icon: "clock.fill", color: .purple, title: "Title", subtitle: "Subtitle")
+        Scheduler(icon: "clock.fill", color: .purple, title: "Title")
     }
 }
