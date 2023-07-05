@@ -8,21 +8,34 @@
 import SwiftUI
 
 struct CustomTextField: View {
-    @State var taskDescription: String = "Teste"
+    @Binding var taskDescription: String
+    @State private var typedMessage: String
+    @Binding var allowSaving: Bool
+    
+    init(taskDescription: Binding<String>, allowSaving: Binding<Bool>) {
+        _taskDescription = taskDescription
+        _typedMessage = State(initialValue: taskDescription.wrappedValue)
+        _allowSaving = allowSaving
+    }
     
     var body: some View {
-        TextField("", text: $taskDescription)
-            .frame(maxWidth: .infinity)
-            .padding(.vertical, 14)
-            .padding(.horizontal, 20)
-            .foregroundColor(Color(.systemGray2))
-            .background(Color(.systemGray6))
-            .cornerRadius(10)
+        TextField("", text: Binding(
+            get: { self.typedMessage },
+            set: { newValue in
+                self.typedMessage = newValue
+                if allowSaving {
+                    self.taskDescription = self.typedMessage
+                    allowSaving = false
+                }
+            }
+        ))
+        .frame(maxWidth: .infinity)
+        .padding(.vertical, 14)
+        .padding(.horizontal, 20)
+        .foregroundColor(Color("Placeholder_Texto"))
+        .background(Color("Background"))
+        .cornerRadius(10)
+        
     }
 }
 
-struct CustomTextField_Previews: PreviewProvider {
-    static var previews: some View {
-        CustomTextField()
-    }
-}
