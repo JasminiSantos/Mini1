@@ -41,7 +41,7 @@ struct ModificadorAtividade {
                     if let json = try? JSONSerialization.jsonObject(with: data, options: []) as? [String: Any] {
                         if let choices = json["choices"] as? [[String: Any]] {
                             if let text = choices[0]["text"] as? String {
-                                atividade.setModificar(acao: text, duracao: atividade.getDuracao())
+                                atividade.setModificar(acao: text)
                             }
                         }
                     }

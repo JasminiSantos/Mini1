@@ -10,23 +10,24 @@ import Foundation
 
 
 
-
-class Atividade: Identifiable , ObservableObject{
-    let ID  = UUID()
+//Classe que guarda todas as informações das atividades bem como possíveis operações
+class Atividade: Identifiable , ObservableObject, Equatable {
+    static func == (lhs: Atividade, rhs: Atividade) -> Bool {
+        return lhs.id == rhs.id && lhs.concluida == rhs.concluida
+    }
+    
+    var ID  = UUID()
     var concluida : Bool
     var mostrarModChat : Bool = false
     private var chatEditou : Bool = false
     private var acao : String
-    private var duracao : String
     private var modAcao : String = ""
-    private var modDuracao : String = ""
     private var dataCriacao : Date
     private var dataConclusao : Date? = nil
     
-    init(acao: String,duracao: String,concluida: Bool = false){
+    init(acao: String,concluida: Bool = false){
         self.concluida = concluida
         self.acao = acao
-        self.duracao = duracao
         self.dataCriacao = Date()
     }
     func concluir(){
@@ -36,14 +37,12 @@ class Atividade: Identifiable , ObservableObject{
     func setAcao(texto:String){
         self.acao = texto
     }
-    func setDuracao(texto: String){
-        self.duracao = texto
-    }
-    func setModificar(acao:String ,duracao:String ){
-        self.chatEditou = true
-        self.mostrarModChat = true
-        self.modAcao = acao
-        self.modDuracao = duracao
+    func setModificar(acao:String ){
+        if(acao.count > 0){
+            self.chatEditou = true
+            self.mostrarModChat = true
+            self.modAcao = acao
+        }
     }
     func getChatEditou() -> Bool{
         return self.chatEditou
@@ -51,14 +50,8 @@ class Atividade: Identifiable , ObservableObject{
     func getAcao() -> String {
         return self.acao
     }
-    func getDuracao() -> String {
-        return self.duracao
-    }
     func getModAcao() -> String {
         return self.modAcao
-    }
-    func getModDuracao() -> String {
-        return self.modDuracao
     }
     func getConcluida() -> Bool{
         return self.concluida
@@ -71,72 +64,80 @@ class Atividade: Identifiable , ObservableObject{
         return nil
     }
     func getDataCriacao() -> Date{
-//        return self.dataConclusao == nil ?? self.dataCriacao
         if (self.dataConclusao != nil){
             return self.dataConclusao ?? self.dataCriacao
         }
         return self.dataCriacao
     }
-}
-
-
-class ListaAtividades : Identifiable, ObservableObject{
-    @Published var lista = [Atividade(acao: "Ler 30 páginas de 'O Hobbit'", duracao: "30 páginas"),
-                Atividade(acao: "Caminhar por 50 minutos", duracao: "50 minutos"),
-                 Atividade(acao: "Beber 8 copos d'água", duracao: "8 copos",concluida: true),
-                Atividade(acao: "Consumir 5 porções de frutas e vegetais", duracao: "5 porções"),
-                Atividade(acao: "Dormir 7-8 horas", duracao: "7-8 horas"),
-                Atividade(acao: "Praticar meditação por 15 minutos", duracao: "15 minutos")]
-    
+    //Não utilizar, essa função serve apenas para converter uma struct em atividade
+    static func createAtividade(atividade: StructAtividade) -> Atividade {
+        let act = Atividade(acao: atividade.acao)
+        
+        act.ID = atividade.ID
+        act.concluida = atividade.concluida
+        act.mostrarModChat = atividade.mostrarModChat
+        act.chatEditou = atividade.chatEditou
+        act.acao = atividade.acao
+        act.modAcao = atividade.modAcao
+        act.dataCriacao = atividade.dataCriacao
+        act.dataConclusao = atividade.dataConclusao
+        
+        return act
+    }
+    //Não utilizar, essa função serve apenas para converter uma atividade em struct
+    static func createStructAtividade(atividade: Atividade) -> StructAtividade{
+        let act = StructAtividade(ID: atividade.ID, concluida: atividade.concluida, mostrarModChat: atividade.mostrarModChat, chatEditou: atividade.chatEditou, acao: atividade.acao, modAcao: atividade.modAcao, dataCriacao: atividade.dataCriacao, dataConclusao: atividade.dataConclusao ?? atividade.dataCriacao)
+        
+        return act
+    }
 }
 
 struct AtividadeView: View{
-    @Binding var atividade : Atividade
-    @ObservedObject var lista : ListaAtividades
-    @State var indice : Int
-    @State var edit : Bool = false
-    @State var editMod : Bool
+    //Atividade que está sendo exibida
+    var atividade : Atividade
+    //Modo de visualização de edição do card
+    let editMod : Bool
+    
+    @EnvironmentObject var listaAtividades: ListaAtividades
     
     
     var body: some View{
-            HStack{
+        HStack(alignment: .top){
+                //Se não está no modo edição, mostramos o card normal
                 if(!editMod){
                     Button(action:{
-                        edit.toggle()
                         atividade.concluida.toggle()
+                        listaAtividades.atualizarAtividade(atividade: atividade)
                     }){
                         Image(systemName: atividade.getConcluida()  ? "checkmark.circle.fill": "circle")
                             .font(.system(size: 34))
+                            .foregroundColor(atividade.concluida ? Color(.systemGray) : .blue)
                     }
                 }
+                //Se está no modo edição então mostramos essa parte
                 else{
+                    //Botão de apagar card
                     Button(action:{
-                        edit.toggle()
-                        if indice < lista.lista.endIndex && !lista.lista.isEmpty{
-                            lista.lista.remove(at: indice)
-                        }
-                        
+                        listaAtividades.remover(atividade: atividade)
                     }){
                         Image(systemName: "minus.circle.fill")
                             .font(.system(size: 34))
                             .foregroundColor(Color(.systemRed))
                     }
                 }
-                VStack{
-                    Text(atividade.getChatEditou() && atividade.mostrarModChat ? atividade.getModAcao() : atividade.getAcao())
-                        .bold()
-                        .font(.system(size: 18))
-                        .frame(maxWidth: .infinity,alignment:.leading)
-                        .foregroundColor(.black)
-                        .fixedSize(horizontal: false, vertical: true)
-                    
-                }
-                .padding()
+                Text(atividade.getChatEditou() && atividade.mostrarModChat ? atividade.getModAcao() : atividade.getAcao())
+                    .bold()
+                    .font(.system(size: 18))
+                    .frame(maxWidth: .infinity,alignment:.leading)
+                    .foregroundColor(atividade.concluida ? Color(.systemGray) : .black)
+                    .fixedSize(horizontal: false, vertical: true)
+                    .padding(.horizontal,16)
+                
                 if(!editMod){
                     Button(action:{
                         if(!atividade.concluida){
-                            edit.toggle()
                             atividade.mostrarModChat.toggle()
+                            listaAtividades.atualizarAtividade(atividade: atividade)
                         }
                     }){
                         Image(systemName:"wand.and.stars")
@@ -147,18 +148,17 @@ struct AtividadeView: View{
             }
             .frame(maxWidth: .infinity)
             .padding()
-            .background(.white)
+            .background(atividade.concluida ?  Color(.systemGray5) : .white)
             .cornerRadius(16)
         }
         
     
 }
-
+    
 struct AtividadeView_Previews: PreviewProvider{
     
     static var previews: some View{
-        let atv = Atividade(acao: "Ler 'O Hobbit'", duracao: "30 páginas")
-        let list = ListaAtividades()
-        return AtividadeView(atividade: .constant(atv),lista: list,indice: 2,editMod:true)
+        let atv = Atividade(acao: "Um texto maior para testar o alinhamento é necessário aqui pois alguns cards podem ter um texto muito grande, e talvez seja necessário limitar a quantidade de caracteres")
+        return AtividadeView(atividade: atv,editMod:false)
     }
 }

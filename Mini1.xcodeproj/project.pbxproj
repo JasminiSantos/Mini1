@@ -19,6 +19,7 @@
 		84D797612A44C2FC0038A91E /* MoodCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84D797602A44C2FC0038A91E /* MoodCard.swift */; };
 		84D797632A44D5920038A91E /* GreenButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84D797622A44D5920038A91E /* GreenButton.swift */; };
 		C017F2582A4DF53300199160 /* ChatKey.swift in Sources */ = {isa = PBXBuildFile; fileRef = C017F2572A4DF53300199160 /* ChatKey.swift */; };
+		C01B980F2A54E2BB0097D89B /* ListaAtividades.swift in Sources */ = {isa = PBXBuildFile; fileRef = C01B980E2A54E2BB0097D89B /* ListaAtividades.swift */; };
 		C07AF8472A53349800FBFDB2 /* GerenciadorArquivos.swift in Sources */ = {isa = PBXBuildFile; fileRef = C07AF8462A53349800FBFDB2 /* GerenciadorArquivos.swift */; };
 /* End PBXBuildFile section */
 
@@ -36,6 +37,7 @@
 		84D797602A44C2FC0038A91E /* MoodCard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MoodCard.swift; sourceTree = "<group>"; };
 		84D797622A44D5920038A91E /* GreenButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GreenButton.swift; sourceTree = "<group>"; };
 		C017F2572A4DF53300199160 /* ChatKey.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatKey.swift; sourceTree = "<group>"; };
+		C01B980E2A54E2BB0097D89B /* ListaAtividades.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListaAtividades.swift; sourceTree = "<group>"; };
 		C07AF8462A53349800FBFDB2 /* GerenciadorArquivos.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GerenciadorArquivos.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -56,6 +58,7 @@
 				849714452A4CC1DA001CD17A /* Modificador.swift */,
 				C017F2572A4DF53300199160 /* ChatKey.swift */,
 				849714472A4CC202001CD17A /* ChatGPT.swift */,
+				C01B980E2A54E2BB0097D89B /* ListaAtividades.swift */,
 			);
 			path = Auxiliares;
 			sourceTree = "<group>";
@@ -195,6 +198,7 @@
 				849714482A4CC202001CD17A /* ChatGPT.swift in Sources */,
 				8428475E2A4A5E6F00C7F02D /* ListaAtividadesView.swift in Sources */,
 				84D797612A44C2FC0038A91E /* MoodCard.swift in Sources */,
+				C01B980F2A54E2BB0097D89B /* ListaAtividades.swift in Sources */,
 				C07AF8472A53349800FBFDB2 /* GerenciadorArquivos.swift in Sources */,
 				849714462A4CC1DA001CD17A /* Modificador.swift in Sources */,
 				8428475A2A4A5D6F00C7F02D /* Atividade.swift in Sources */,
