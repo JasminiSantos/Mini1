@@ -25,10 +25,12 @@ struct CustomScheduler: View {
         Day(name: "S", isSelected: false)
     ]
     
+    @State private var isScheduled = false
+    
     var body: some View {
         VStack(alignment: .leading) {
             VStack {
-                CustomToggle(icon: "repeat", color: .red, title: "Repetir", subtitle: "Personalizado")
+                CustomToggle(isToggleOn: $isScheduled, icon: "repeat", color: Color("Laranja"), title: "Repetir", subtitle: "Personalizado")
             }
             Divider()
             VStack(alignment: .leading, spacing: 20) {
@@ -55,19 +57,19 @@ struct CustomScheduler: View {
                 }
                 Spacer()
             }
-            .background(Color(.systemGray4).opacity(0.6))
+            .background(Color("Cards"))
             .cornerRadius(8)
         }
         .padding()
-        .background(Color(.systemGray6))
+        .background(Color("Background"))
         .cornerRadius(8)
     }
     
     private func buttonBackgroundColor(for isSelected: Bool) -> Color {
-        return isSelected ? Color.blue : Color(.systemGray5)
+        return isSelected ? Color("Laranja"): Color("Background")
     }
     private func buttonforegroundColor(for isSelected: Bool) -> Color {
-        return isSelected ? Color.white : Color(.systemGray2)
+        return isSelected ? Color.white : Color("Placeholder_Texto")
     }
     
 }
