@@ -9,7 +9,6 @@ import SwiftUI
 
 struct OnboardingView: View {
     let nome: String = "amigo"
-    @StateObject var lista = ListaAtividades()
     @State var nextPage : Bool = false
     @State var moodSelected =  MoodCard(emoji: "Error", title: "Error", description: "Error")
     @State var isEnabled: Bool = false
@@ -66,7 +65,7 @@ struct OnboardingView: View {
                 .disabled(!isEnabled)
                 .padding(20)
                 .fullScreenCover(isPresented: $nextPage){
-                    ListaAtividadesView(lista: lista, mood:$moodSelected)
+                    ListaAtividadesView(mood:$moodSelected)
                 }
             }
         }
