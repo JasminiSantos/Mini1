@@ -20,8 +20,8 @@ class Atividade: Identifiable , ObservableObject, Equatable {
     var concluida : Bool
     var mostrarModChat : Bool = false
     private var chatEditou : Bool = false
-    private var acao : String
-    private var modAcao : String = ""
+    @Published var acao : String
+    @Published var modAcao : String = ""
     private var dataCriacao : Date
     private var dataConclusao : Date? = nil
     

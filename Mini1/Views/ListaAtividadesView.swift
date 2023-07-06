@@ -147,48 +147,45 @@ struct ListaAtividadesView: View {
                     }
                     
                     VStack {
-                        ForEach(lista.lista.indices) { index in
-                            if !lista.lista[index].concluida {
-                                AtividadeView(atividade: $lista.lista[index])
+                        ForEach(listaAtividades.lista.indices) { index in
+                            if !listaAtividades.lista[index].concluida {
+                                AtividadeView(atividade: listaAtividades.lista[index], editMod: editMod)
                                     .cornerRadius(16)
                                     .onTapGesture {
                                         showingEditingSheet[index] = true
                                     }
                                     .sheet(isPresented: $showingEditingSheet[index]) {
-                                        EditorAtividadeView(atividade: $lista.lista[index])
+                                        EditorAtividadeView(atividade: $listaAtividades.lista[index])
                                     }
                             }
                         }
-                        ForEach(lista.lista.indices) { index in
-                            if lista.lista[index].concluida {
-                                AtividadeView(atividade: $lista.lista[index])
+                        ForEach(listaAtividades.lista.indices) { index in
+                            if listaAtividades.lista[index].concluida {
+                                AtividadeView(atividade: listaAtividades.lista[index], editMod: editMod)
                                     .cornerRadius(16)
                             }
                         }
                     }
                 }
-                else{
-                    VStack{
-                        Text("Modificando suas atividades...")
-                            .frame(maxWidth: .infinity,maxHeight: .infinity)
-                    }
-                }
+//                else{
+//                    VStack{
+//                        Text("Modificando suas atividades...")
+//                            .frame(maxWidth: .infinity,maxHeight: .infinity)
+//                    }
+//                }
             }
             .padding()
             .background(Color(.systemGray6))
             .onAppear {
-                showingEditingSheet = Array(repeating: false, count: lista.lista.count)
+                showingEditingSheet = Array(repeating: false, count: listaAtividades.lista.count)
                 Task {
-                    for atividade in lista.lista {
+                    for atividade in listaAtividades.lista {
                         await ModificadorAtividade().modificar(atividade: atividade, mood: mood)
                     }
                     carregando = false
                 }
                 
                 
-            }
-                    
-                }
             }
         }
         .background(Color("Background"))

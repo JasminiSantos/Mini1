@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		840214D82A5678DA00FDFED0 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 840214D72A5678DA00FDFED0 /* Assets.xcassets */; };
+		840214DA2A5678EA00FDFED0 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 840214D92A5678EA00FDFED0 /* Assets.xcassets */; };
 		8428475A2A4A5D6F00C7F02D /* Atividade.swift in Sources */ = {isa = PBXBuildFile; fileRef = 842847592A4A5D6F00C7F02D /* Atividade.swift */; };
 		8428475E2A4A5E6F00C7F02D /* ListaAtividadesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8428475D2A4A5E6F00C7F02D /* ListaAtividadesView.swift */; };
 		849714462A4CC1DA001CD17A /* Modificador.swift in Sources */ = {isa = PBXBuildFile; fileRef = 849714452A4CC1DA001CD17A /* Modificador.swift */; };
@@ -24,11 +26,12 @@
 		84D797632A44D5920038A91E /* GreenButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84D797622A44D5920038A91E /* GreenButton.swift */; };
 		C017F2582A4DF53300199160 /* ChatKey.swift in Sources */ = {isa = PBXBuildFile; fileRef = C017F2572A4DF53300199160 /* ChatKey.swift */; };
 		C01B980F2A54E2BB0097D89B /* ListaAtividades.swift in Sources */ = {isa = PBXBuildFile; fileRef = C01B980E2A54E2BB0097D89B /* ListaAtividades.swift */; };
-		C06B4F602A55D67800854206 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = C06B4F5F2A55D67800854206 /* Assets.xcassets */; };
 		C07AF8472A53349800FBFDB2 /* GerenciadorArquivos.swift in Sources */ = {isa = PBXBuildFile; fileRef = C07AF8462A53349800FBFDB2 /* GerenciadorArquivos.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		840214D72A5678DA00FDFED0 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; name = Assets.xcassets; path = "../../Downloads/Mini1-jasmini/Mini1/Assets.xcassets"; sourceTree = "<group>"; };
+		840214D92A5678EA00FDFED0 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; name = Assets.xcassets; path = "../../../Downloads/Mini1-jasmini/Mini1/Assets.xcassets"; sourceTree = "<group>"; };
 		842847592A4A5D6F00C7F02D /* Atividade.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Atividade.swift; sourceTree = "<group>"; };
 		8428475D2A4A5E6F00C7F02D /* ListaAtividadesView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListaAtividadesView.swift; sourceTree = "<group>"; };
 		849714452A4CC1DA001CD17A /* Modificador.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Modificador.swift; sourceTree = "<group>"; };
@@ -47,8 +50,6 @@
 		84D797622A44D5920038A91E /* GreenButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GreenButton.swift; sourceTree = "<group>"; };
 		C017F2572A4DF53300199160 /* ChatKey.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatKey.swift; sourceTree = "<group>"; };
 		C01B980E2A54E2BB0097D89B /* ListaAtividades.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListaAtividades.swift; sourceTree = "<group>"; };
-		C06B4F5F2A55D67800854206 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; name = Assets.xcassets; path = ../../../../../../Downloads/Assets.xcassets; sourceTree = "<group>"; };
-		C06B4F612A55D78000854206 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; name = Assets.xcassets; path = ../../../../../Downloads/Assets.xcassets; sourceTree = "<group>"; };
 		C07AF8462A53349800FBFDB2 /* GerenciadorArquivos.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GerenciadorArquivos.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -107,7 +108,7 @@
 				849714442A4CC1A5001CD17A /* Auxiliares */,
 				84D7975F2A44C2DF0038A91E /* Componentes */,
 				84D797512A44B8CF0038A91E /* Mini1App.swift */,
-				C06B4F612A55D78000854206 /* Assets.xcassets */,
+				840214D72A5678DA00FDFED0 /* Assets.xcassets */,
 				84D797572A44B8D10038A91E /* Preview Content */,
 			);
 			path = Mini1;
@@ -116,8 +117,8 @@
 		84D797572A44B8D10038A91E /* Preview Content */ = {
 			isa = PBXGroup;
 			children = (
-				C06B4F5F2A55D67800854206 /* Assets.xcassets */,
 				84D797582A44B8D10038A91E /* Preview Assets.xcassets */,
+				840214D92A5678EA00FDFED0 /* Assets.xcassets */,
 			);
 			path = "Preview Content";
 			sourceTree = "<group>";
@@ -128,15 +129,12 @@
 				84D797602A44C2FC0038A91E /* MoodCard.swift */,
 				84D797622A44D5920038A91E /* GreenButton.swift */,
 				842847592A4A5D6F00C7F02D /* Atividade.swift */,
-<<<<<<< HEAD
 				8497144C2A4F5294001CD17A /* CustomTextField.swift */,
 				8497144E2A4F547D001CD17A /* CustomToggle.swift */,
 				849714502A4F64DD001CD17A /* Scheduler.swift */,
 				849714522A4F6A83001CD17A /* CustomScheduler.swift */,
 				849714542A533905001CD17A /* CustomToggle2.swift */,
-=======
 				C07AF8462A53349800FBFDB2 /* GerenciadorArquivos.swift */,
->>>>>>> robis
 			);
 			path = Componentes;
 			sourceTree = "<group>";
@@ -200,7 +198,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				84D797592A44B8D10038A91E /* Preview Assets.xcassets in Resources */,
-				C06B4F602A55D67800854206 /* Assets.xcassets in Resources */,
+				840214DA2A5678EA00FDFED0 /* Assets.xcassets in Resources */,
+				840214D82A5678DA00FDFED0 /* Assets.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
